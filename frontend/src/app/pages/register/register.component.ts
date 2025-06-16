@@ -20,13 +20,18 @@ export class RegisterComponent {
 
   constructor(private auth: AuthService, private router: Router, private toast: ToastService) {}
 
-  async onSubmit() {
-    try {
-      await this.auth.register(this.username, this.password);
-      this.toast.show('Usuario registrado correctamente');
-      this.router.navigate(['/login']);
-    } catch {
-      this.toast.show('Error al registrar');
+  onSubmit() {
+    const strong = /^(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(this.password);
+    if (!strong) {
+      this.toast.show('Contraseña no segura');
+      return;
     }
+
+    this.auth.register(this.username, this.password)
+      .then(() => {
+        this.toast.show('Usuario registrado');
+        this.router.navigate(['/login']);
+      })
+      .catch(() => this.toast.show('Error al registrar'));
   }
 }
