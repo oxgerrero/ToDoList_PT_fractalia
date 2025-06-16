@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="card">
+    <h2>Mis Tareas</h2>
+
+    <form (ngSubmit)="addTask()" class="form-group">
+      <input [(ngModel)]="newTitle" name="title" placeholder="Título de la tarea" required />
+      <input [(ngModel)]="newDesc" name="desc" placeholder="Descripción (opcional)" />
+      <button type="submit">Agregar</button>
+    </form>
+
+    <div *ngFor="let task of tasks" class="task-card" [class.completed]="task.completed">
+      <div>
+        <h4>{{ task.title }}</h4>
+        <p>{{ task.description }}</p>
+      </div>
+      <div class="task-actions">
+        <button (click)="toggle(task)">✔</button>
+        <button (click)="delete(task.id)">🗑</button>
+      </div>
+    </div>
+  </div>
+</div>
